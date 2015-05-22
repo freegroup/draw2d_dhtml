@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vnetwork id="1">
+<server id="2"> 
+   <name>BlauerServer</name> 
+   <dbid>4052</dbid> 
+   <ram-in-mb>3000</ram-in-mb> 
+   <cpu-units>1</cpu-units> 
+   <images id="3"> 
+     <image id="4" index="0"> 
+       <dbid>4053</dbid> 
+       <name>install</name> 
+       <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name> 
+       <order>0</order> 
+       <boot-order>0</boot-order> 
+       <image-type>cdrom</image-type> 
+       <readonly>false</readonly> 
+       <writeback>false</writeback> 
+     </image> 
+   </images> 
+   <nics id="5"> 
+      <nic id="6"> 
+        <ipAddress>10.223.226.3</ipAddress> 
+        <server reference="2"/> 
+        <switch reference="23"/> 
+      </nic> 
+      <nic id="9"> 
+         <ipAddress>10.223.226.5</ipAddress> 
+         <server reference="2"/> 
+         <switch reference="27"/> 
+      </nic> 
+  </nics> 
+</server> 
+</vnetwork>
