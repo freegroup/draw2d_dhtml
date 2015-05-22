@@ -1,0 +1,16 @@
+This is the first example for the MVC (Model View Controller)
+pattern in Draw2D. The MVC implementation in Draw2D is still progress!
+
+All API methods can be changed without any notification 
+on the web page.
+
+
+  -- This is still a proof of concept --
+
+
+Comments are welcome!
+
+
+Greetings
+
+   Andreas Herz

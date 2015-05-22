@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/Strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title></title>
+
+  <link type="text/css" rel="stylesheet" href="css/smoothness/jquery-ui-1.8.16.custom.css" />
+  <SCRIPT src="jquery-1.6.4.js"></SCRIPT>
+  <SCRIPT src="jquery-ui-1.8.16.custom.min.js"></SCRIPT>
+  
+    <script>
+    function getUrlParams() {
+      var result = {};
+      var params = (parent.window.location.search.split('?')[1] || '').split('&');
+      for(var param in params) {
+        if (params.hasOwnProperty(param)) {
+            paramParts = params[param].split('=');
+            result[paramParts[0]] = decodeURIComponent(paramParts[1] || "");
+        }
+      }
+      return result;
+    }
+    $(document).ready(function($) {
+       $( "#accordion" ).accordion({
+        autoheight:false,
+        active: false,
+		header: 'h3',
+		navigation: true
+		});
+
+       $('#accordion').bind('accordionchangestart', function(event, ui) {
+          var href = $(ui.newHeader).data("name");
+          var param = $(ui.newHeader).data("param");
+		  if(param)
+             window.parent.demo.location.href="./"+href+"/index.html?"+param;
+		  else
+             window.parent.demo.location.href="./"+href+"/index.html";
+         });
+       
+       var target = getUrlParams().target;
+       $( "#accordion" ).accordion("activate",'h3[data-name="'+target+'"]');
+    });
+  </script>
+  <style>
+  body{
+    font-size:10px;
+  }
+  em{
+    font-style:cursiv;
+    color:black !important;
+  }
+  </style>
+</head>
+<body>
+
+<div class="demo">
+
+<div id="accordion">
+
+	  <h3 data-name="010_simple"><a class="header" >01 Simple, getting started, example.</a></h3>
+	  <div>
+	    The absolute basic example of draw2d. Neither user interaction nor other fancy stuff.<br/>
+	    Just paint some basic figures with the draw2d API.
+	  </div>
+
+	  <h3  data-name="020_simple_interactive" ><a class="header">02 Simple figures with resize handles and drag drop</a></h3>
+	  <div>
+		Absolute basic example with Drag&amp;Drop interaction.<br/>
+		No Reocket science. ;-)
+		<br/>
+		<br/>
+		Try to resize or to move the figures around.
+	  </div>
+
+	  <h3  data-name="025_vector_draw" ><a class="header">Vector Draw</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+
+	  <h3  data-name="030_connector_direct" ><a class="header">Getting startet with <em>Ports</em></a></h3>
+	  <div>
+		First example with objects with ports. You can Drag&amp;Drop the ports and drop them onto other <em>Port</em>s to
+		create <em>Connection</em>s.
+		<br/>
+		<br/>
+		<em>draw2d.Port</em>s are the basic class for <em>draw2d.Connection</em>s between <em>draw2.Figure</em>s.
+		<br/>
+		Connections can be created with API calls or user interaction. 
+		Additional, you can see a <em>Tool</em>s Palette with some buttons for undo/redo. the Draw2D supports a undo/redo Stack for all user
+		operations. No additional coding is required. 
+	  </div>
+
+	  <h3  data-name="035_connector_z" ><a class="header">Connector with a Z-Router</a></h3>
+	  <div>
+	  </div>
+	  
+	  <h3  data-name="040_connector_label" ><a class="header">Connector with a <em>Label</em></a></h3>
+	  <div>
+		You can add any figure as decoration to a connection. Addition you can hand over a <em>DecorationLocator</em> to place them
+		like your flavor.<br/>
+		<br/>
+		Try it out. Drag&amp;Drop the green objects to inspect the label relocation. The label will stay in the middle of the connection.
+	  </div>
+
+	  <h3  data-name="050_connector_decorator" ><a class="header">Connector with Decoration</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="055_connector_contextmenu" ><a class="header">Connector with a ContextMenu</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="056_connector_doubleclick" ><a class="header">Connector with a double click callback</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="060_connector_router" ><a class="header">Connector with different router</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="070_connector_vector" ><a class="header">Own draw Connector</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="080_connector_via_api1" ><a class="header">Create Connector via API call v.1</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="090_connector_via_api2" ><a class="header">Create Connecotr via API call v.2</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="100_port_representation" ><a class="header">Change the Port representation</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="110_port_test" ><a class="header">Port Test</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="200_context_menu" ><a class="header">Simple Context Menu</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="400_doubleclick" ><a class="header">Double click callback</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="420_workflow_contextmenu" ><a class="header">Canvas context menu</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="430_flow_menu" ><a class="header">Object flow menu</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="500_arrow_line" ><a class="header">Arrow Line</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="510_uml" ><a class="header">UML</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="600_image_resize" ><a class="header">Image Resize</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="610_round_corner" ><a class="header">Round Corner Figure</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="620_round_corner2" ><a class="header">Round Corner Figure 2</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="625_vector_node" ><a class="header">Vector Figure</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="626_input_figure" ><a class="header">Input Figure</a></h3>
+	  <div>
+	  A simple figure with a form input field.
+	  </div>
+	  
+	  <h3  data-name="630_timer" ><a class="header">Timer Figure</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="640_compartment" ><a class="header">Compartment Figure</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="650_owndraw" ><a class="header">Own Draw Figure</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="660_figure_hover" ><a class="header">Hover Figure</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="670_link" ><a class="header">Figure with Link action</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="680_tooltip" ><a class="header">Figure Tooltip</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="800_circuit" ><a class="header">Circuit</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="810_guipainter" ><a class="header">UI Painter</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="820_mvc" ><a class="header">Model View Controller</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="830_network_editor" data-param="xml=example2.xml" ><a class="header">Complete XML Handling</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="840_extjs_integration" ><a class="header">ExtJS Integration</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="900_command_listener" ><a class="header">Command Listener</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="910_serializer" ><a class="header">Very Simple XML Serializer</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="920_selection_listener" ><a class="header">Selection Listener</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="930_selection_listener2" ><a class="header">Selection Listener 2</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="940_snap_to_geometry" ><a class="header">SnapTo Geometry</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="950_snap_to_grid" ><a class="header">SnapTo Grid</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="960_scroll_to" ><a class="header">Scroll To</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="970_viewport" ><a class="header">Viewport</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="980_toggle_button" ><a class="header">Toggle Button</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="990_resize" ><a class="header">Figure Resize</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+	  <h3  data-name="995_color_test" ><a class="header">Color Test</a></h3>
+	  <div>
+	  </div>
+	  
+	  
+</div>
+
+</div><!-- End demo -->
+</body>
+</html>

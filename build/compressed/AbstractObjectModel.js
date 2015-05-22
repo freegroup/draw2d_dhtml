@@ -1,0 +1,10 @@
+/**
+This notice must be untouched at all times.
+This is the COMPRESSED version of Draw2D
+WebSite: http://www.draw2d.org
+Copyright: 2006 Andreas Herz. All rights reserved.
+Created: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )
+LICENSE: LGPL
+**/
+
+draw2d.AbstractObjectModel=function(){this.listeners=new draw2d.ArrayList();this.id=draw2d.UUID.create();};draw2d.AbstractObjectModel.EVENT_ELEMENT_ADDED="element added";draw2d.AbstractObjectModel.EVENT_ELEMENT_REMOVED="element removed";draw2d.AbstractObjectModel.EVENT_CONNECTION_ADDED="connection addedx";draw2d.AbstractObjectModel.EVENT_CONNECTION_REMOVED="connection removed";draw2d.AbstractObjectModel.prototype.type="draw2d.AbstractObjectModel";draw2d.AbstractObjectModel.prototype.getModelChildren=function(){return new draw2d.ArrayList();};draw2d.AbstractObjectModel.prototype.getModelParent=function(){return this.modelParent;};draw2d.AbstractObjectModel.prototype.setModelParent=function(_5c8){this.modelParent=_5c8;};draw2d.AbstractObjectModel.prototype.getId=function(){return this.id;};draw2d.AbstractObjectModel.prototype.firePropertyChange=function(_5c9,_5ca,_5cb){var _5cc=this.listeners.getSize();if(_5cc===0){return;}var _5cd=new draw2d.PropertyChangeEvent(this,_5c9,_5ca,_5cb);for(var i=0;i<_5cc;i++){try{this.listeners.get(i).propertyChange(_5cd);}catch(e){alert("Method: draw2d.AbstractObjectModel.prototype.firePropertyChange\n"+e+"\nProperty: "+_5c9+"\nListener Class:"+this.listeners.get(i).type);}}};draw2d.AbstractObjectModel.prototype.addPropertyChangeListener=function(_5cf){if(_5cf!==null){this.listeners.add(_5cf);}};draw2d.AbstractObjectModel.prototype.removePropertyChangeListener=function(_5d0){if(_5d0!==null){this.listeners.remove(_5d0);}};draw2d.AbstractObjectModel.prototype.getPersistentAttributes=function(){return {id:this.id};};

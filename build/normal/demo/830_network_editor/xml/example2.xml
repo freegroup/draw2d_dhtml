@@ -1,0 +1,146 @@
+
+<vnetwork id="1">
+   <dbid>5763</dbid>
+   <name>Virtual Network</name>
+      <switch id="2" >
+         <dbid>5835</dbid>
+         <name>Switch</name>
+         <representation x="864" y="201" />
+      </switch>
+      <switch id="182" >
+         <name>Switch</name>
+         <representation x="834" y="526" />
+      </switch>   
+      <server id="44" >
+         <name>Server</name>
+         <cpu-units>1</cpu-units>
+         <ram-in-mb>5000</ram-in-mb>
+         <dbid>5815</dbid>
+         <images>
+               <image id="46" index="0" >
+                  <name>install1</name>
+                  <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name>
+                  <image-type>cdrom</image-type>
+                  <writeback>none</writeback>
+                  <dbid></dbid>
+                  <order></order>
+                  <boot-order>5</boot-order>
+                  <readonly></readonly>
+               </image>
+               <image id="1218" index="" >
+                  <name>Suse</name>
+                  <file-name>file2.iso</file-name>
+                  <image-type>fdd</image-type>
+                  <writeback>none</writeback>
+                  <dbid/>
+                  <order>1</order>
+                  <boot-order/>
+                  <readonly>false</readonly>
+               </image>            
+         </images>
+         <nics id="47" >
+               <nic id="137" >
+                  <server reference="44" />
+                  <switch reference="2" />
+               </nic>            
+         </nics>
+         <representation x="478" y="259" />
+      </server>
+      <server id="123" >
+         <name>Server</name>
+         <cpu-units>1</cpu-units>
+         <ram-in-mb>1024</ram-in-mb>
+         <images>            
+         </images>
+         <nics id="126" >
+               <nic id="142" >
+                  <server reference="123" />
+                  <switch reference="2" />
+               </nic>
+               <nic id="158" >
+                  <server reference="123" />
+                  <switch reference="2" />
+               </nic>            
+         </nics>
+         <representation x="479" y="388" />
+      </server>
+      <server id="172" >
+         <name>Server</name>
+         <cpu-units>1</cpu-units>
+         <ram-in-mb>1024</ram-in-mb>
+         <images>            
+         </images>
+         <nics id="175" >
+               <nic id="187" >
+                  <server reference="172" />
+                  <switch reference="182" />
+               </nic>            
+         </nics>
+         <representation x="498" y="506" />
+      </server>
+      <server id="225" >
+         <name>Server</name>
+         <cpu-units>1</cpu-units>
+         <ram-in-mb>1024</ram-in-mb>
+         <images>            
+         </images>
+         <nics id="228" >
+               <nic id="254" >
+                  <server reference="225" />
+                  <switch reference="2" />
+               </nic>            
+         </nics>
+         <representation x="491" y="156" />
+      </server>
+      <server id="246" >
+         <name>Server</name>
+         <cpu-units>1</cpu-units>
+         <ram-in-mb>1024</ram-in-mb>
+         <images>            
+         </images>
+         <nics id="249" >
+               <nic id="260" >
+                  <server reference="246" />
+                  <switch reference="2" />
+               </nic>            
+         </nics>
+         <representation x="497" y="30" />
+      </server>   
+      <storage id="60" qualifier="normal" >
+         <storage-in-mb>1024</storage-in-mb>
+         <representation x="132" y="336" />
+      </storage>
+      <storage id="178" qualifier="normal" >
+         <storage-in-mb>3000</storage-in-mb>
+         <representation x="133" y="509" />
+      </storage>
+      <storage id="230" qualifier="normal" >
+         <storage-in-mb>3000</storage-in-mb>
+         <representation x="131" y="151" />
+      </storage>   
+      <mount id="120" >
+         <storage reference="60" />
+         <server reference="44" />
+         <order>1</order>
+      </mount>
+      <mount id="129" >
+         <storage reference="60" />
+         <server reference="123" />
+         <order>1</order>
+      </mount>
+      <mount id="192" >
+         <storage reference="178" />
+         <server reference="172" />
+         <order>1</order>
+      </mount>
+      <mount id="235" >
+         <storage reference="230" />
+         <server reference="225" />
+         <order>1</order>
+      </mount>
+      <mount id="258" >
+         <storage reference="230" />
+         <server reference="246" />
+         <order>1</order>
+      </mount>   
+</vnetwork>

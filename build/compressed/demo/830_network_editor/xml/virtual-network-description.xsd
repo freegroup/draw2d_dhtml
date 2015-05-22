@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified"
+            targetNamespace="http://vdc.freegroup.de/schema/vnd"
+            xmlns="http://vdc.freegroup.de/schema/vnd"
+            version="1.0">
+
+    <!-- the one and only root element -->
+    <xsd:element name="vnetwork" type="VNetworkType"/>
+
+    <xsd:complexType name="VNetworkType" mixed="true">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="dbid" type="xsd:positiveInteger"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="name" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="100" name="switch" type="SwitchType"/>
+            <xsd:element minOccurs="0" maxOccurs="500" name="server" type="ServerType"/>
+            <xsd:element minOccurs="0" maxOccurs="500" name="storage" type="StorageType"/>
+            <xsd:element minOccurs="0" maxOccurs="5000" name="mount" type="MountType"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ServerType" mixed="true">
+        <xsd:all>
+            <xsd:element minOccurs="0" name="name" type="xsd:NCName"/>
+            <xsd:element minOccurs="0" name="cpu-units" type="CpuUnitsType"/>
+            <xsd:element minOccurs="0" name="ram-in-mb" type="RamInMbType"/>
+            <xsd:element minOccurs="0" name="images" type="ImagesType"/>
+            <xsd:element minOccurs="0" name="nics" type="NicsType"/>
+            <xsd:element minOccurs="0" name="dbid" type="xsd:positiveInteger"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="representation" type="VisualRepresentationType"/>
+        </xsd:all>
+        
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="NicsType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="255" name="nic" type="NicType"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="NicType" mixed="true">
+        <xsd:all>
+            <xsd:element minOccurs="0" maxOccurs="1" name="switch" type="ReferenceType"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="server" type="ReferenceType"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="ipaddress" type="IPAddressType"/>
+        </xsd:all>
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+        <xsd:attribute name="dbid" type="xsd:positiveInteger" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="CpuUnitsType">
+        <xsd:restriction base="xsd:positiveInteger"/>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="RamInMbType">
+        <xsd:restriction base="xsd:positiveInteger"/>
+    </xsd:simpleType>
+
+    <xsd:complexType name="ImagesType">
+        <xsd:sequence>
+            <xsd:element name="image" maxOccurs="255" type="ImageType"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ImageType" mixed="true">
+        <xsd:all>
+            <xsd:element minOccurs="0" maxOccurs="1" name="name" type="NameType"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="file-name" type="FileNameType"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="image-type" type="ImageTypeType"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="writeback" type="WritebackType"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="dbid" type="xsd:positiveInteger"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="order" type="xsd:nonNegativeInteger"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="boot-order" type="xsd:nonNegativeInteger"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="readonly" type="xsd:boolean"/>
+        </xsd:all>
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+        <xsd:attribute name="index" use="required" type="IndexType"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="NameType">
+        <xsd:restriction base="xsd:NCName"/>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="FileNameType">
+        <xsd:restriction base="xsd:string"/>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="ImageTypeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="cdrom"/>
+            <xsd:enumeration value="fdd"/>
+            <xsd:enumeration value="hdd"/>
+            <xsd:enumeration value="usb"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="StorageType" mixed="true">
+        <xsd:all>
+            <xsd:element minOccurs="0" maxOccurs="1" name="storage-in-mb" type="StorageSizeType"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="name" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="dbid" type="xsd:positiveInteger"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="representation" type="VisualRepresentationType"/>
+        </xsd:all>
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+        <xsd:attribute name="qualifier" type="StorageQualifierType"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="StorageSizeType">
+        <xsd:restriction base="xsd:positiveInteger"/>
+    </xsd:simpleType>
+
+    <xsd:complexType name="MountType" mixed="true">
+        <xsd:all>
+            <xsd:element minOccurs="1" maxOccurs="1" name="storage" type="ReferenceType"/>
+            <xsd:element minOccurs="1" maxOccurs="1" name="server" type="ReferenceType"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="order" type="xsd:nonNegativeInteger"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="dbid" type="xsd:positiveInteger"/>
+        </xsd:all>
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ReferenceType">
+        <xsd:attribute name="reference" type="xsd:positiveInteger"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="VisualRepresentationType">
+        <xsd:attribute name="x" type="xsd:positiveInteger"/>
+        <xsd:attribute name="y" type="xsd:positiveInteger"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="SwitchType" mixed="true">
+        <xsd:all>
+            <xsd:element minOccurs="0" maxOccurs="1"   name="name" type="xsd:string"/>
+            <xsd:element name="dbid" minOccurs="0" maxOccurs="1" type="xsd:positiveInteger"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="representation" type="VisualRepresentationType"/>
+        </xsd:all>
+        <xsd:attribute name="id" type="xsd:positiveInteger"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="WritebackType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="inplace"/>
+            <xsd:enumeration value="snapshot"/>
+            <xsd:enumeration value="none"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="MACAddressType">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="[0-9a-fA-F]{2}([0-9a-fA-F]{2}){5}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="IPAddressType">
+        <xsd:restriction base="xsd:token">
+            <!-- todo: test if this is realy correct -->
+            <xsd:pattern value="(([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([1-9]?[0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="StorageQualifierType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ultra-fast"/>
+            <xsd:enumeration value="fast"/>
+            <xsd:enumeration value="normal"/>
+            <xsd:enumeration value="slow"/>
+            <xsd:enumeration value="dead-slow"/>
+            <xsd:enumeration value="i-dont-care"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="IndexType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

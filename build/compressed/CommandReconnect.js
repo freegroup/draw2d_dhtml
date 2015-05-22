@@ -1,0 +1,10 @@
+/**
+This notice must be untouched at all times.
+This is the COMPRESSED version of Draw2D
+WebSite: http://www.draw2d.org
+Copyright: 2006 Andreas Herz. All rights reserved.
+Created: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )
+LICENSE: LGPL
+**/
+
+draw2d.CommandReconnect=function(con){draw2d.Command.call(this,"reconnect connection");this.con=con;this.oldSourcePort=con.getSource();this.oldTargetPort=con.getTarget();this.oldRouter=con.getRouter();this.con.setRouter(new draw2d.NullConnectionRouter());};draw2d.CommandReconnect.prototype=new draw2d.Command();draw2d.CommandReconnect.prototype.type="draw2d.CommandReconnect";draw2d.CommandReconnect.prototype.canExecute=function(){return true;};draw2d.CommandReconnect.prototype.setNewPorts=function(_661,_662){this.newSourcePort=_661;this.newTargetPort=_662;};draw2d.CommandReconnect.prototype.execute=function(){this.redo();};draw2d.CommandReconnect.prototype.cancel=function(){var _663=this.con.sourceAnchor.getLocation(this.con.targetAnchor.getReferencePoint());var end=this.con.targetAnchor.getLocation(this.con.sourceAnchor.getReferencePoint());this.con.setStartPoint(_663.x,_663.y);this.con.setEndPoint(end.x,end.y);this.con.getWorkflow().showLineResizeHandles(this.con);this.con.setRouter(this.oldRouter);};draw2d.CommandReconnect.prototype.undo=function(){this.con.setSource(this.oldSourcePort);this.con.setTarget(this.oldTargetPort);this.con.setRouter(this.oldRouter);if(this.con.getWorkflow().getCurrentSelection()==this.con){this.con.getWorkflow().showLineResizeHandles(this.con);}};draw2d.CommandReconnect.prototype.redo=function(){this.con.setSource(this.newSourcePort);this.con.setTarget(this.newTargetPort);this.con.setRouter(this.oldRouter);if(this.con.getWorkflow().getCurrentSelection()==this.con){this.con.getWorkflow().showLineResizeHandles(this.con);}};

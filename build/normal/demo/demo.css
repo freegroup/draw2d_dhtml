@@ -1,0 +1,26 @@
+.stickyNote {
+ position:absolute;
+ margin: auto;
+ width: 350px;	
+ color:#696139;
+ background: #FBF9EE;
+ padding: 10px;
+ top:10px;
+ left:10px;
+ font-size:9px;
+ border:1px solid #FCEFA1;
+ border-radius: 4px 4px 4px 4px;
+ -webkit-box-shadow: 0px 3px 3px #a0a0a0;
+ -moz-box-shadow: 0px 3px 3px #a0a0a0;
+ -moz-user-select: -moz-none;
+ -khtml-user-select: none;
+ -webkit-user-select: none;
+ user-select: none;
+}
+
+.unselectable{
+ -moz-user-select: -moz-none;
+ -khtml-user-select: none;
+ -webkit-user-select: none;
+ user-select: none;
+}

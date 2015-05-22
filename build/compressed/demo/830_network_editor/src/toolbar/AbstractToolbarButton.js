@@ -1,0 +1,10 @@
+/**
+This notice must be untouched at all times.
+This is the COMPRESSED version of Draw2D
+WebSite: http://www.draw2d.org
+Copyright: 2006 Andreas Herz. All rights reserved.
+Created: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )
+LICENSE: LGPL
+**/
+
+draw2d.AbstractToolbarButton=function(_15f,_160){if(_15f===undefined){return;}if(_15f instanceof draw2d.GraphicalEditor){_15f=_15f.getGraphicalViewer();}this.html=null;this.label=_160;this.workflow=_15f;this.enabled=false;this.workflow.addSelectionListener(this);this.workflow.getCommandStack().addCommandStackEventListener(this);this.executeBinding=this.execute.bindAsEventListener(this);this.getHTMLElement();};draw2d.AbstractToolbarButton.prototype=new draw2d.CommandStackEventListener();draw2d.AbstractToolbarButton.prototype.getHTMLElement=function(){if(this.html===null){this.html=new Element("li");this.html.className="toolbar_button";this.a=new Element("a");this.a.className="toolbar_button";this.a.innerHTML=this.label;this.html.appendChild(this.a);this.setEnable(true);}return this.html;};draw2d.AbstractToolbarButton.prototype.getWorkflow=function(){return this.workflow;};draw2d.AbstractToolbarButton.prototype.execute=function(){alert("Default action for a Toolbarbutton called");};draw2d.AbstractToolbarButton.prototype.setEnable=function(flag){if(this.enabled===flag){return;}this.enabled=flag;if(this.enabled===true){Event.observe(this.html,"click",this.executeBinding);$(this.a).removeClassName("toolbar_button_disabled");}else{Event.stopObserving(this.html,"click",this.executeBinding);$(this.a).addClassName("toolbar_button_disabled");}};draw2d.AbstractToolbarButton.prototype.setTooltip=function(text){this.getHTMLElement().title=text;};draw2d.AbstractToolbarButton.prototype.onSelectionChanged=function(_163){};draw2d.AbstractToolbarButton.prototype.stackChanged=function(_164){};

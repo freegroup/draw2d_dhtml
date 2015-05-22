@@ -1,0 +1,10 @@
+/**
+This notice must be untouched at all times.
+This is the COMPRESSED version of Draw2D
+WebSite: http://www.draw2d.org
+Copyright: 2006 Andreas Herz. All rights reserved.
+Created: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )
+LICENSE: LGPL
+**/
+
+draw2d.Graphics=function(_4ec,_4ed,_4ee){this.jsGraphics=_4ec;this.xt=_4ee.x;this.yt=_4ee.y;this.radian=_4ed*Math.PI/180;this.sinRadian=Math.sin(this.radian);this.cosRadian=Math.cos(this.radian);};draw2d.Graphics.prototype.setStroke=function(x){this.jsGraphics.setStroke(x);};draw2d.Graphics.prototype.drawLine=function(x1,y1,x2,y2){var _x1=this.xt+x1*this.cosRadian-y1*this.sinRadian;var _y1=this.yt+x1*this.sinRadian+y1*this.cosRadian;var _x2=this.xt+x2*this.cosRadian-y2*this.sinRadian;var _y2=this.yt+x2*this.sinRadian+y2*this.cosRadian;this.jsGraphics.drawLine(_x1,_y1,_x2,_y2);};draw2d.Graphics.prototype.fillRect=function(x,y,w,h){var x1=this.xt+x*this.cosRadian-y*this.sinRadian;var y1=this.yt+x*this.sinRadian+y*this.cosRadian;var x2=this.xt+(x+w)*this.cosRadian-y*this.sinRadian;var y2=this.yt+(x+w)*this.sinRadian+y*this.cosRadian;var x3=this.xt+(x+w)*this.cosRadian-(y+h)*this.sinRadian;var y3=this.yt+(x+w)*this.sinRadian+(y+h)*this.cosRadian;var x4=this.xt+x*this.cosRadian-(y+h)*this.sinRadian;var y4=this.yt+x*this.sinRadian+(y+h)*this.cosRadian;this.jsGraphics.fillPolygon([x1,x2,x3,x4],[y1,y2,y3,y4]);};draw2d.Graphics.prototype.fillPolygon=function(_504,_505){var rotX=[];var rotY=[];for(var i=0;i<_504.length;i++){rotX[i]=this.xt+_504[i]*this.cosRadian-_505[i]*this.sinRadian;rotY[i]=this.yt+_504[i]*this.sinRadian+_505[i]*this.cosRadian;}this.jsGraphics.fillPolygon(rotX,rotY);};draw2d.Graphics.prototype.setColor=function(_509){this.jsGraphics.setColor(_509.getHTMLStyle());};draw2d.Graphics.prototype.drawPolygon=function(_50a,_50b){var rotX=[];var rotY=[];for(var i=0;i<_50a.length;i++){rotX[i]=this.xt+_50a[i]*this.cosRadian-_50b[i]*this.sinRadian;rotY[i]=this.yt+_50a[i]*this.sinRadian+_50b[i]*this.cosRadian;}this.jsGraphics.drawPolygon(rotX,rotY);};

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/Strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>FreeGroup Draw2D 0.9.31 :: Triangle</title>
+        <link type="text/css" rel="stylesheet" href="../demo.css" />
+
+    <!-- common, all times required, imports -->        <SCRIPT src='../../wz_jsgraphics.js'></SCRIPT>      <SCRIPT src='../../mootools.js'></SCRIPT>      <SCRIPT src='../../moocanvas.js'></SCRIPT>      <SCRIPT src='../../draw2d.js'></SCRIPT>
+
+        <!-- demo specific imports -->
+	<SCRIPT src="model/FieldTypeModel.js"></SCRIPT>
+	<SCRIPT src="model/FieldTypeModelBoolean.js"></SCRIPT>
+	<SCRIPT src="model/FieldModel.js"></SCRIPT>
+	<SCRIPT src="model/TableModel.js"></SCRIPT>
+	<SCRIPT src="model/ForeignKeyModel.js"></SCRIPT>
+	<SCRIPT src="model/DatabaseModel.js"></SCRIPT>
+
+	<SCRIPT src="view/InputFieldFigure.js"></SCRIPT>
+	<SCRIPT src="view/OutputFieldFigure.js"></SCRIPT>
+	<SCRIPT src="view/ForeignKeyFigure.js"></SCRIPT>
+	<SCRIPT src="view/TableFigure.js"></SCRIPT>
+
+	<SCRIPT src="command/CommandMoveTable.js"></SCRIPT>
+
+        // Editor
+	<SCRIPT src="MyGraphicalEditor.js"></SCRIPT>
+	<SCRIPT src="MyGraphicalEditorFactory.js"></SCRIPT>
+</head>
+<body onselectstart="return false;" style="margin:0px;padding:0px;" onkeydown="">
+<div id="paintarea" style="position:absolute;left:0px;top:0px;width:3000px;height:3000px" >
+
+</div>
+<script>
+// Demo data
+var modelXML = 
+'<?xml version="1.0"?>'+
+'<model type="draw2d.DatabaseModel">'+
+'<id type="String">dddddddd</id>'+
+'<tables type="draw2d.ArrayList">'+
+'   <data type="Array">'+
+'      <index0 type="draw2d.TableModel">'+
+'         <id type="String">t1</id>'+
+'         <name type="string">juhu</name>'+
+'         <pos type="draw2d.Point">'+
+'            <x type="int">200</x>'+
+'            <y type="int">150</y>'+
+'         </pos>'+
+'      </index0>'+
+'      <index1 type="draw2d.TableModel">'+
+'         <id type="String">t2</id>'+
+'         <name type="string">juhuuuuu</name>'+
+'         <pos type="draw2d.Point">'+
+'            <x type="int">100</x>'+
+'            <y type="int">100</y>'+
+'         </pos>'+
+'      </index1>'+
+'   </data>'+
+'   <increment type="int">10</increment>'+
+'   <size type="int">2</size>'+
+'</tables>'+
+'</model>';
+
+// XML => Object mapping
+  var parser = new DOMImplementation();
+  var modelDom = parser.loadXML(modelXML);
+  var modelDoc = modelDom.getDocumentElement();
+  var model = draw2d.XMLDeserializer.fromXML(modelDoc);
+
+// Create the editor with the model object (root model object)
+  var editor  = new draw2d.MyGraphicalEditor("paintarea", model);
+
+  var table1 = model.getTableModel("juhu");
+  var table2 = model.getTableModel("juhuuuuu");
+
+  table1.addFieldModel(new draw2d.FieldModel("pkey"));
+  table1.addFieldModel(new draw2d.FieldModel("name"));
+  table1.addFieldModel(new draw2d.FieldModel("other_key"));
+
+  table2.addFieldModel(new draw2d.FieldModel("pkey"));
+  table2.addFieldModel(new draw2d.FieldModel("name"));
+
+  table1.addForeignKeyModel(new draw2d.ForeignKeyModel("juhu","other_key","juhuuuuu","pkey"));
+// Object => XML mapping
+  var newXML = draw2d.XMLSerializer.toXML(model);
+//  alert(newXML);
+</script>
+
+</body>
+</html>

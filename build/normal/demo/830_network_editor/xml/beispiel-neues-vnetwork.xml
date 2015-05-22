@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<vnetwork id="1">
+
+    <server id="2">
+        <cpu-units>1</cpu-units>
+        <ram-in-mb>3000</ram-in-mb>
+        <images>
+            <image index="0">
+                <name>install</name>
+                <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name>
+                <image-type>cdrom</image-type>
+                <writeback>none</writeback>
+            </image>
+        </images>
+        <nics>
+            <nic id="5" />
+            <nic id="6" />
+            <nic id="7" />
+        </nics>
+    </server>
+
+    <server id="30">
+        <cpu-units>1</cpu-units>
+        <ram-in-mb>3000</ram-in-mb>
+        <images>
+            <image index="0">
+                <name>install</name>
+                <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name>
+                <image-type>cdrom</image-type>
+                <writeback>none</writeback>
+            </image>
+        </images>
+        <nics>
+            <nic id="5" />
+            <nic id="6" />
+            <nic id="7" />
+        </nics>
+    </server>
+    <server id="31">
+        <cpu-units>1</cpu-units>
+        <ram-in-mb>3000</ram-in-mb>
+        <images>
+            <image index="0">
+                <name>install</name>
+                <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name>
+                <image-type>cdrom</image-type>
+                <writeback>none</writeback>
+            </image>
+        </images>
+        <nics>
+            <nic id="5" />
+            <nic id="6" />
+            <nic id="7" />
+        </nics>
+    </server>
+    <server id="32">
+        <cpu-units>1</cpu-units>
+        <ram-in-mb>4000</ram-in-mb>
+        <images>
+            <image index="0">
+                <name>install</name>
+                <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name>
+                <image-type>cdrom</image-type>
+                <writeback>none</writeback>
+            </image>
+        </images>
+        <nics>
+            <nic id="5" />
+            <nic id="6" />
+            <nic id="7" />
+        </nics>
+    </server>
+
+    <server id="33">
+        <cpu-units>1</cpu-units>
+        <ram-in-mb>4000</ram-in-mb>
+        <images>
+            <image index="0">
+                <name>install</name>
+                <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name>
+                <image-type>cdrom</image-type>
+                <writeback>none</writeback>
+            </image>
+        </images>
+        <nics>
+            <nic id="5" />
+            <nic id="6" />
+            <nic id="7" />
+        </nics>
+    </server>
+    <server id="34">
+        <cpu-units>1</cpu-units>
+        <ram-in-mb>5000</ram-in-mb>
+        <images>
+            <image index="0">
+                <name>install</name>
+                <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name>
+                <image-type>cdrom</image-type>
+                <writeback>none</writeback>
+            </image>
+        </images>
+        <nics>
+            <nic id="5" />
+            <nic id="6" />
+            <nic id="7" />
+        </nics>
+    </server>
+    <server id="35">
+        <cpu-units>1</cpu-units>
+        <ram-in-mb>5000</ram-in-mb>
+        <images>
+            <image index="0">
+                <name>install</name>
+                <file-name>/net/san2401/images/debian-lenny-minimal.iso</file-name>
+                <image-type>cdrom</image-type>
+                <writeback>none</writeback>
+            </image>
+        </images>
+        <nics>
+            <nic id="5" />
+            <nic id="6" />
+            <nic id="7" />
+        </nics>
+    </server>
+
+
+
+    <!-- storage definition -->
+
+    <storage id="11" qualifier="i-dont-care">
+        <storage-in-mb>800</storage-in-mb>
+    </storage>
+
+    <!-- shared storage usable by all servers (e.g. for cluster FS or NFS, ...) -->
+
+    <mount>
+        <storage reference="11"></storage>
+        <server reference="2"></server>
+    </mount>
+
+</vnetwork>
+

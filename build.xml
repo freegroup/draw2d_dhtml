@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="draw2d" default="all" basedir=".">
+<property file="build.properties" />
+<property name="draw2d.version.major"    value="0.9"/>
+<property name="draw2d.version.bugfix"   value="31"/>
+<property name="draw2d.version"          value="${draw2d.version.major}.${draw2d.version.bugfix}"/>
+
+<property name="draw2d.name"    value="Draw2D"/>
+<property name="build.dir"      value="./build"/>
+<property name="normal.dir"     value="${build.dir}/normal"/>
+<property name="compress.dir"   value="${build.dir}/compressed"/>
+<property name="single.dir"     value="${build.dir}/single"/>
+
+<property name="prepared.dir"   value="./prepared"/>
+<property name="src.dir"        value="./src"/>
+<property name="doc.dir"        value="${build.dir}/jsdoc"/>
+
+<tstamp><format property="build.time" pattern="yyyy-MM-dd HH:mm:ss"/></tstamp>
+
+<!-- =================================================================== -->
+<!-- Classpath                                                           -->
+<!-- =================================================================== -->
+<path id="compile.classpath">
+	<fileset dir="./lib">
+		<include name="*.jar"/>
+	</fileset>
+</path>
+	
+
+<!-- Additional Task definitions -->
+<taskdef name="compress-js" classname="com.webpanes.tools.ant.taskdefs.CompressJS">
+	<classpath refid="compile.classpath"/>
+</taskdef>
+
+
+<taskdef name="jslint" classname="net.happygiraffe.jslint.ant.JSLintTask">
+  <classpath>
+    <pathelement location="./lib/jslint4java-1.2.1+rhino.jar"/>
+  </classpath>
+</taskdef>
+
+
+<!-- =================================================================== -->
+<!--  Configuration                                                      -->
+<!-- =================================================================== -->
+<property environment="env"/>
+
+<!-- =================================================================== -->
+<!-- ALL                                                                 -->
+<!-- =================================================================== -->
+<target name="all"  depends="clean,prepare, normal,compress, single, draw2d.zip"  description="create the project">
+</target>
+
+<!-- =================================================================== -->
+<!-- CLEAN                                                               -->
+<!-- =================================================================== -->
+<target name="clean" description="Delete old build and dist directories">
+   <delete quiet="true" dir="${prepared.dir}"/>
+   <delete quiet="true" dir="${build.dir}"/>
+</target>
+
+<target name="lint" description="Check the javascript">
+  <jslint options="laxbreak,sub">
+    <formatter type="plain" />
+    <fileset dir="${src.dir}" includes="*.js" />
+  </jslint>
+</target>
+
+<!-- =================================================================== -->
+<!-- PREPARE                                                             -->
+<!-- Es wird das komplette Projekt in ein neues Verzeichnis kopiert.     -->
+<!-- Dabei werden VERSION und APPLICATIONNAME ersetzt.                   -->
+<!-- =================================================================== -->
+<target name="prepare" description="Copy and filter the VERSION and APPLICATIONNAME String">
+   <mkdir  dir="${prepared.dir}"/>
+   <filter token="VERSION"            value="${draw2d.version}"/>
+   <filter token="APPLICATIONNAME"    value="${draw2d.name}"/>
+   <filter token="APPLICATIONWEBSITE" value="${draw2d.website}"/>  
+   
+   <copy todir="${prepared.dir}" filtering="true" encoding="ISO-8859-1">
+      <fileset dir="${src.dir}">
+         <include name="**/*.html"/>
+         <include name="**/*.js"/>
+      </fileset>
+   </copy>
+   
+   <copy todir="${prepared.dir}" filtering="false">
+      <fileset dir="${src.dir}">
+         <exclude name="**/*.js"/>
+         <exclude name="**/*.html"/>
+         <exclude name="**/*.*~"/>
+      </fileset>
+   </copy>
+</target>
+
+<!-- =================================================================== -->
+<!-- NORMAL                                                              -->
+<!-- =================================================================== -->
+<target name="normal" depends="clean, prepare" description="copy the js to the distribution directory"  >
+   <mkdir  dir="${normal.dir}"/>
+   <copy todir="${normal.dir}">
+      <fileset dir="${prepared.dir}">
+      </fileset>
+  </copy>
+</target>
+
+
+
+<!-- =================================================================== -->
+<!-- COMPRESS                                                            -->
+<!-- =================================================================== -->
+<target name="compress" depends="" description="copy the js to the distribution directory and remove all comments"  >
+  <mkdir  dir="${compress.dir}"/>
+
+  <copy todir="${compress.dir}">
+      <fileset dir="${prepared.dir}">
+         <exclude name="**/*.js"/>
+      </fileset>
+  </copy>
+  <compress-js todir="${compress.dir}" stripCR="true" copyright="/**\nThis notice must be untouched at all times.\nThis is the COMPRESSED version of Draw2D\nWebSite: http://www.draw2d.org\nCopyright: 2006 Andreas Herz. All rights reserved.\nCreated: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )\nLICENSE: LGPL\n**/\n">
+     <fileset dir="${prepared.dir}">
+        <include name="**/*.js"/>
+        <exclude name="**/ext-all.js"/>
+        <exclude name="**/jquery*"/>
+        <exclude name="**/moo*"/>
+        <exclude name="**/prototype*"/>
+     </fileset>
+  </compress-js>
+  <copy todir="${compress.dir}">
+     <fileset dir="${prepared.dir}">
+        <include name="**/ext-all.js"/>
+        <include name="**/jquery*"/>
+        <include name="**/moo*"/>
+        <include name="**/prototype*"/>
+     </fileset>
+  </copy>
+  <!-- don't remove any copyrights from the Walter Zorn draw library -->
+  <copy file="${prepared.dir}/wz_jsgraphics.js" tofile="${compress.dir}/wz_jsgraphics.js" overwrite="true"/>
+  <copy file="${prepared.dir}/mootools.js" tofile="${compress.dir}/mootools.js" overwrite="true"/>
+  <copy file="${prepared.dir}/moocanvas.js" tofile="${compress.dir}/moocanvas.js" overwrite="true"/>
+  
+  <delete quiet="true" dir="./TMP"/>
+</target>
+
+
+
+<!-- =================================================================== -->
+<!-- SINGLE                                                              -->
+<!-- =================================================================== -->
+<target name="single" depends="" description="copy the js to the distribution directory and remove all comments"  >
+    <mkdir  dir="${single.dir}"/>
+	<mkdir  dir="./TMP"/>
+
+    <compress-js todir="./TMP" stripCR="false" >
+      <fileset dir="${prepared.dir}">
+         <include name="**/*.js"/>
+         <exclude name="**/ext-all.js"/>
+         <exclude name="**/jquery*"/>
+         <exclude name="**/moo.fx*"/>
+         <exclude name="**/prototype*"/>
+      </fileset>
+    </compress-js>
+    
+    <copy todir="./TMP">
+      <fileset dir="${prepared.dir}">
+        <include name="**/ext-all.js"/>
+         <include name="**/jquery*"/>
+         <include name="**/moo.fx*"/>
+         <include name="**/prototype*"/>
+      </fileset>
+    </copy>
+    
+    <copy todir="./TMP">
+      <fileset dir="${prepared.dir}">
+         <exclude name="**/*.js"/>
+         <exclude name="**/*.*~"/>
+      </fileset>
+    </copy>
+
+    <!-- copy all files to the directory -->
+    <copy todir="${single.dir}">
+       <fileset dir="./TMP">
+       </fileset>
+    </copy>
+
+    <!-- and remove the core js files -->
+    <delete>
+       <fileset dir="${single.dir}" includes="*.js"/>
+    </delete>	
+	
+	<replaceregexp
+            match="(?s)&lt;!--REGEXP_START_REMOVE--&gt;(.*)&lt;!--REGEXP_END_REMOVE--&gt;"
+            replace="&lt;SCRIPT src='../../wz_jsgraphics.js'&gt;&lt;/SCRIPT&gt;
+	    &lt;SCRIPT src='../../mootools.js'&gt;&lt;/SCRIPT&gt;
+	    &lt;SCRIPT src='../../moocanvas.js'&gt;&lt;/SCRIPT&gt;
+	    &lt;SCRIPT src='../../draw2d.js'&gt;&lt;/SCRIPT&gt;"
+            byline="false">
+            <fileset dir="${single.dir}" includes="**/*.html" />
+        </replaceregexp>
+         <concat destfile="${single.dir}/draw2d.js" binary="false">
+		<header filtering="no" trimleading="yes">
+/**This notice must be untouched at all times.
+This is the COMPRESSED version of the Draw2D Library
+WebSite: http://www.draw2d.org
+Copyright: 2006 Andreas Herz. All rights reserved.
+Created: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )
+LICENSE: LGPL
+**/
+               </header>
+               <fileset file="./TMP/events.js"></fileset>
+               <fileset file="./TMP/String.js"></fileset>
+               <fileset file="./TMP/UUID.js"></fileset>
+               <fileset file="./TMP/ArrayList.js"></fileset>
+               <fileset file="./TMP/debug.js"></fileset>
+               <fileset file="./TMP/dragdrop.js"></fileset>
+               <fileset file="./TMP/PositionConstants.js"></fileset>
+               <fileset file="./TMP/Color.js"></fileset>
+               <fileset file="./TMP/Point.js"></fileset>
+               <fileset file="./TMP/Dimension.js"></fileset>
+               <fileset file="./TMP/SnapToHelper.js"></fileset>
+               <fileset file="./TMP/SnapToGrid.js"></fileset>
+               <fileset file="./TMP/SnapToGeometryEntry.js"></fileset>
+               <fileset file="./TMP/SnapToGeometry.js"></fileset>
+               <fileset file="./TMP/Border.js"></fileset>
+               <fileset file="./TMP/LineBorder.js"></fileset>
+               <fileset file="./TMP/Figure.js"></fileset>
+               <fileset file="./TMP/Node.js"></fileset>
+               <fileset file="./TMP/VectorFigure.js"></fileset>
+               <fileset file="./TMP/SVGFigure.js"></fileset>
+               <fileset file="./TMP/Label.js"></fileset>
+               <fileset file="./TMP/Oval.js"></fileset>
+               <fileset file="./TMP/Circle.js"></fileset>
+               <fileset file="./TMP/Rectangle.js"></fileset>
+               <fileset file="./TMP/ImageFigure.js"></fileset>
+               <fileset file="./TMP/Port.js"></fileset>
+               <fileset file="./TMP/InputPort.js"></fileset>
+               <fileset file="./TMP/OutputPort.js"></fileset>
+               <fileset file="./TMP/Line.js"></fileset>
+               <fileset file="./TMP/ConnectionRouter.js"></fileset>
+               <fileset file="./TMP/NullConnectionRouter.js"></fileset>
+               <fileset file="./TMP/ManhattanConnectionRouter.js"></fileset>
+               <fileset file="./TMP/BezierConnectionRouter.js"></fileset>
+               <fileset file="./TMP/FanConnectionRouter.js"></fileset>
+               <fileset file="./TMP/Graphics.js"></fileset>
+               <fileset file="./TMP/Connection.js"></fileset>
+               <fileset file="./TMP/ConnectionAnchor.js"></fileset>
+               <fileset file="./TMP/ChopboxConnectionAnchor.js"></fileset>
+               <fileset file="./TMP/ConnectionDecorator.js"></fileset>
+               <fileset file="./TMP/ArrowConnectionDecorator.js"></fileset>
+               <fileset file="./TMP/CompartmentFigure.js"></fileset>
+               <fileset file="./TMP/CanvasDocument.js"></fileset>
+               <fileset file="./TMP/Annotation.js"></fileset>
+               <fileset file="./TMP/ResizeHandle.js"></fileset>
+               <fileset file="./TMP/LineStartResizeHandle.js"></fileset>
+               <fileset file="./TMP/LineEndResizeHandle.js"></fileset>
+               <fileset file="./TMP/Canvas.js"></fileset>
+               <fileset file="./TMP/Workflow.js"></fileset>
+               <fileset file="./TMP/WindowFigure.js"></fileset>
+               <fileset file="./TMP/Button.js"></fileset>
+               <fileset file="./TMP/ToggleButton.js"></fileset>
+               <fileset file="./TMP/ToolGeneric.js"></fileset>
+               <fileset file="./TMP/ToolPalette.js"></fileset>
+               <fileset file="./TMP/Dialog.js"></fileset>
+               <fileset file="./TMP/InputDialog.js"></fileset>
+               <fileset file="./TMP/PropertyDialog.js"></fileset>
+               <fileset file="./TMP/AnnotationDialog.js"></fileset>
+               <fileset file="./TMP/PropertyWindow.js"></fileset>
+               <fileset file="./TMP/ColorDialog.js"></fileset>
+               <fileset file="./TMP/LineColorDialog.js"></fileset>
+               <fileset file="./TMP/BackgroundColorDialog.js"></fileset>
+               <fileset file="./TMP/AnnotationDialog.js"></fileset>
+               <fileset file="./TMP/Command.js"></fileset>
+               <fileset file="./TMP/CommandStack.js"></fileset>
+               <fileset file="./TMP/CommandStackEvent.js"></fileset>
+               <fileset file="./TMP/CommandStackEventListener.js"></fileset>
+               <fileset file="./TMP/CommandAdd.js"></fileset>
+               <fileset file="./TMP/CommandDelete.js"></fileset>
+               <fileset file="./TMP/CommandMove.js"></fileset>
+               <fileset file="./TMP/CommandResize.js"></fileset>
+               <fileset file="./TMP/CommandSetText.js"></fileset>
+               <fileset file="./TMP/CommandSetColor.js"></fileset>
+               <fileset file="./TMP/CommandSetBackgroundColor.js"></fileset>
+               <fileset file="./TMP/CommandConnect.js"></fileset>
+               <fileset file="./TMP/CommandReconnect.js"></fileset>
+               <fileset file="./TMP/CommandMoveLine.js"></fileset>
+               <fileset file="./TMP/CommandMovePort.js"></fileset>
+               <fileset file="./TMP/Menu.js"></fileset>
+               <fileset file="./TMP/MenuItem.js"></fileset>
+               <fileset file="./TMP/Locator.js"></fileset>
+               <fileset file="./TMP/ConnectionLocator.js"></fileset>
+               <fileset file="./TMP/ManhattanMidpointLocator.js"></fileset>
+               <fileset file="./TMP/BezierMidpointLocator.js"></fileset>
+               <fileset file="./TMP/EditPartFactory.js"></fileset>
+               <fileset file="./TMP/AbstractObjectModel.js"></fileset>
+               <fileset file="./TMP/AbstractConnectionModel.js"></fileset>
+               <fileset file="./TMP/PropertyChangeEvent.js"></fileset>
+               <fileset file="./TMP/GraphicalViewer.js"></fileset>
+               <fileset file="./TMP/GraphicalEditor.js"></fileset>
+               <fileset file="./TMP/xmlsax.js"></fileset>
+               <fileset file="./TMP/xmlw3cdom.js"></fileset>
+               <fileset file="./TMP/XMLSerializer.js"></fileset>
+               <fileset file="./TMP/XMLDeserializer.js"></fileset>
+               <fileset file="./TMP/EditPolicy.js"></fileset>
+               <fileset file="./TMP/AbstractPalettePart.js"></fileset>
+               <fileset file="./TMP/ExternalPalette.js"></fileset>
+        </concat>
+        <copy todir="${single.dir}">
+           <fileset dir="${prepared.dir}">
+              <include name="**/ext-all.js"/>
+              <include name="**/jquery*"/>
+           </fileset>
+        </copy>
+        <!-- don't remove any copyrights from the Walter Zorn draw library -->
+        <copy file="${prepared.dir}/wz_jsgraphics.js" tofile="${single.dir}/wz_jsgraphics.js" overwrite="true"/>
+        <copy file="${prepared.dir}/mootools.js" tofile="${single.dir}/mootools.js" overwrite="true"/>
+        <copy file="${prepared.dir}/moocanvas.js" tofile="${single.dir}/moocanvas.js" overwrite="true"/>
+	<delete quiet="true" dir="./TMP"/>
+</target>
+
+<target name="draw2d.zip" depends="" description="create the draw2d.zip file"  >
+   <jar compress="true"  destfile="./draw2d.zip" >
+   <fileset dir="${build.dir}">
+   </fileset>
+   </jar>
+   <move file="./draw2d.zip" tofile="${build.dir}/draw2d.zip"/>
+</target>
+	
+
+</project>
+

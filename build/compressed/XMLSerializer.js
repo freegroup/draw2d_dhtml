@@ -1,0 +1,10 @@
+/**
+This notice must be untouched at all times.
+This is the COMPRESSED version of Draw2D
+WebSite: http://www.draw2d.org
+Copyright: 2006 Andreas Herz. All rights reserved.
+Created: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )
+LICENSE: LGPL
+**/
+
+draw2d.XMLSerializer=function(){alert("do not init this class. Use the static methods instead");};draw2d.XMLSerializer.toXML=function(obj,_fe0,_fe1){if(_fe0==undefined){_fe0="model";}_fe1=_fe1?_fe1:"";var t=draw2d.XMLSerializer.getTypeName(obj);var s=_fe1+"<"+_fe0+" type=\""+t+"\">";switch(t){case "int":case "number":case "boolean":s+=obj;break;case "string":s+=draw2d.XMLSerializer.xmlEncode(obj);break;case "date":s+=obj.toLocaleString();break;case "Array":case "array":s+="\n";var _fe4=_fe1+"   ";for(var i=0;i<obj.length;i++){s+=draw2d.XMLSerializer.toXML(obj[i],("element"),_fe4);}s+=_fe1;break;default:if(obj!==null){s+="\n";if(obj instanceof draw2d.ArrayList){obj.trimToSize();}var _fe6=obj.getPersistentAttributes();var _fe4=_fe1+"   ";for(var name in _fe6){s+=draw2d.XMLSerializer.toXML(_fe6[name],name,_fe4);}s+=_fe1;}break;}s+="</"+_fe0+">\n";return s;};draw2d.XMLSerializer.isSimpleVar=function(t){switch(t){case "int":case "string":case "String":case "Number":case "number":case "Boolean":case "boolean":case "bool":case "dateTime":case "Date":case "date":case "float":return true;}return false;};draw2d.XMLSerializer.getTypeName=function(obj){if(obj===null){return "undefined";}if(obj instanceof Array){return "Array";}if(obj instanceof Date){return "Date";}var t=typeof (obj);if(t=="number"){return (parseInt(obj).toString()==obj)?"int":"number";}if(draw2d.XMLSerializer.isSimpleVar(t)){return t;}return obj.type.replace("@NAMESPACE"+"@","");};draw2d.XMLSerializer.xmlEncode=function(_feb){var _fec=_feb;var amp=/&/gi;var gt=/>/gi;var lt=/</gi;var quot=/"/gi;var apos=/'/gi;var _ff2="&#62;";var _ff3="&#38;#60;";var _ff4="&#38;#38;";var _ff5="&#34;";var _ff6="&#39;";_fec=_fec.replace(amp,_ff4);_fec=_fec.replace(quot,_ff5);_fec=_fec.replace(lt,_ff3);_fec=_fec.replace(gt,_ff2);_fec=_fec.replace(apos,_ff6);return _fec;};
